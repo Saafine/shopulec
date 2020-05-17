@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.scss'
+import AddList from './new-list/AddList'
+import { Router } from '@reach/router'
+import { urls } from './consts/urls'
+import List from './new-list/List'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+
+const theme = createMuiTheme({
+  typography: {
+    button: {
+      textTransform: 'none',
+    },
+  },
+})
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ThemeProvider theme={theme}>
+      <Router>
+        <AddList path={urls.root()}></AddList>
+        <List path={urls.list()}></List>
+      </Router>
+    </ThemeProvider>
+  )
 }
 
-export default App;
+export default App
