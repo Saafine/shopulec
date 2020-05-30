@@ -12,10 +12,6 @@ function AppTabs(props: RouteComponentProps) {
   const [tabIndex, setTabIndex] = useState(0)
   const [shopItems, setShopItems] = useState<ShopItem[]>([
     {
-      label: 'Mrożone owoce',
-      value: false,
-    },
-    {
       label: 'test',
       value: false,
     },
@@ -25,12 +21,18 @@ function AppTabs(props: RouteComponentProps) {
     },
   ])
 
-  const handleChange = (_: React.ChangeEvent<{}>, value: number) => {
+  const predefinedShopItems: ShopItem[] = [
+    {
+      label: 'Mrożone owoce',
+      value: false,
+    },
+  ]
+
+  const handleTabChange = (_: React.ChangeEvent<{}>, value: number) => {
     setTabIndex(value)
   }
 
-  const updateProducts = (newShopItem: string) => {
-    console.log(newShopItem)
+  const addShopItem = (newShopItem: string) => {
     setShopItems([
       ...shopItems,
       {
@@ -40,7 +42,7 @@ function AppTabs(props: RouteComponentProps) {
     ])
   }
 
-  const updateProductState = (index: number) => {
+  const updateShopItemState = (index: number) => {
     setShopItems(
       shopItems.map((control, idx) =>
         index !== idx
@@ -50,12 +52,16 @@ function AppTabs(props: RouteComponentProps) {
     )
 
     setTimeout(() => {
-      removeItem(index)
+      removeShopItem(index)
     }, 100)
   }
 
-  const removeItem = (index: number) => {
+  const removeShopItem = (index: number) => {
     setShopItems(shopItems.filter((_, idx) => index !== idx))
+  }
+
+  const onPredefinedShopItemAdded = (index: number) => {
+    addShopItem(predefinedShopItems[index].label)
   }
 
   return (
@@ -63,7 +69,7 @@ function AppTabs(props: RouteComponentProps) {
       <Paper square>
         <Tabs
           value={tabIndex}
-          onChange={handleChange}
+          onChange={handleTabChange}
           variant="fullWidth"
           indicatorColor="secondary"
           textColor="secondary"
@@ -78,12 +84,18 @@ function AppTabs(props: RouteComponentProps) {
       <div hidden={tabIndex !== 0}>
         <ShopItems
           shopItems={shopItems}
-          updateItemValue={updateProductState}
-          removeItem={removeItem}
+          onShopItemClick={updateShopItemState}
         ></ShopItems>
       </div>
 
-      <AddProduct updateProducts={updateProducts} />
+      <div hidden={tabIndex !== 1}>
+        <ShopItems
+          shopItems={predefinedShopItems}
+          onShopItemClick={onPredefinedShopItemAdded}
+        ></ShopItems>
+      </div>
+
+      <AddProduct updateProducts={addShopItem} />
     </React.Fragment>
   )
 }

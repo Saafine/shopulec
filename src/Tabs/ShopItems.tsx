@@ -12,8 +12,7 @@ export interface ShopItem {
 
 export interface ShopItemsProps {
   shopItems: ShopItem[]
-  updateItemValue: (index: number) => void
-  removeItem: (index: number) => void
+  onShopItemClick: (index: number) => void
 }
 
 const circleStyle: CSSProperties = { color: grey[500] }
@@ -31,7 +30,7 @@ function ShopItems(props: RouteComponentProps & ShopItemsProps) {
                   icon={<RadioButtonUnchecked style={circleStyle} />}
                   checkedIcon={<CheckCircleOutline />}
                   checked={shopItem.value}
-                  onChange={() => props.updateItemValue(index)}
+                  onChange={() => props.onShopItemClick(index)}
                 />
               }
               label={shopItem.label}
