@@ -3,12 +3,17 @@ import React, { useState } from 'react'
 import { TextField, useTheme } from '@material-ui/core'
 import NavigationIcon from '@material-ui/icons/Navigation'
 
-function AddProductInput(props: RouteComponentProps) {
+export interface AddProductInputProps {
+  updateProducts: (newItemLabel: string) => void
+}
+
+function AddProductInput(props: RouteComponentProps & AddProductInputProps) {
   const theme = useTheme()
 
   const [product, updateProduct] = useState('')
   const onAddProduct = (event: React.ChangeEvent<{}>) => {
     event.preventDefault()
+    props.updateProducts(product)
     updateProduct('')
   }
 

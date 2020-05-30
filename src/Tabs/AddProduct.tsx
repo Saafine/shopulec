@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 import { useTheme } from '@material-ui/core'
 import AddCircleOutlinedIcon from '@material-ui/icons/AddCircleOutlined'
 import Overlay from './Overlay'
-import AddProductInput from './AddProductInput'
+import AddProductInput, { AddProductInputProps } from './AddProductInput'
 
-function AddProduct(props: RouteComponentProps) {
+function AddProduct(props: RouteComponentProps & AddProductInputProps) {
   const [showAddProduct, setShowAddProduct] = useState(false)
 
   const theme = useTheme()
@@ -18,7 +18,9 @@ function AddProduct(props: RouteComponentProps) {
     <>
       {showAddProduct && <Overlay onOverlayClick={handleClose} />}
 
-      {showAddProduct && <AddProductInput />}
+      {showAddProduct && (
+        <AddProductInput updateProducts={props.updateProducts} />
+      )}
 
       {!showAddProduct && (
         <button onClick={() => setShowAddProduct(true)}>
