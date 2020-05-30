@@ -7,19 +7,15 @@ import AddProductInput, { AddProductInputProps } from './AddProductInput'
 
 function AddProduct(props: RouteComponentProps & AddProductInputProps) {
   const [showAddProduct, setShowAddProduct] = useState(false)
-
   const theme = useTheme()
-
-  const handleClose = () => {
-    setShowAddProduct(false)
-  }
+  const handleClose = () => setShowAddProduct(false)
 
   return (
     <>
       {showAddProduct && <Overlay onOverlayClick={handleClose} />}
 
       {showAddProduct && (
-        <AddProductInput updateProducts={props.updateProducts} />
+        <AddProductInput onSubmit={props.onSubmit} onBlur={handleClose} />
       )}
 
       {!showAddProduct && (

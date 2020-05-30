@@ -1,20 +1,30 @@
 import { RouteComponentProps } from '@reach/router'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { TextField, useTheme } from '@material-ui/core'
 import NavigationIcon from '@material-ui/icons/Navigation'
 
 export interface AddProductInputProps {
-  updateProducts: (newItemLabel: string) => void
+  onSubmit: (newItemLabel: string) => void
+  onBlur?: () => void
 }
 
+// TODO [P. Labus] after enter, focus again on input
+// switching tabs by swiping left and right
+// drag and drop
+// localstorage
+// exit when keyboard closes on input
 function AddProductInput(props: RouteComponentProps & AddProductInputProps) {
   const theme = useTheme()
+  const textInput = useRef(null)
 
   const [product, updateProduct] = useState('')
-  const onAddProduct = (event: React.ChangeEvent<{}>) => {
+  const onSubmit = (event: React.ChangeEvent<{}>) => {
     event.preventDefault()
-    props.updateProducts(product)
+    props.onSubmit(product)
     updateProduct('')
+
+    // @ts-ignore
+    textInput.current.focus()
   }
 
   return (
@@ -30,8 +40,10 @@ function AddProductInput(props: RouteComponentProps & AddProductInputProps) {
       }}
     >
       <div className="p-8 flex justify-center items-center">
-        <form onSubmit={onAddProduct}>
+        <form onSubmit={onSubmit}>
           <TextField
+            inputRef={textInput}
+            autoFocus
             label="Add product"
             value={product}
             onChange={(value) => updateProduct(value.target.value)}
