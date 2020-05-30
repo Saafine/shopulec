@@ -1,15 +1,22 @@
 import React from 'react'
 import './App.scss'
-import AddList from './new-list/AddList'
 import { Router } from '@reach/router'
-import { urls } from './consts/urls'
-import List from './new-list/List'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+import Tabs from './Tabs/Tabs'
+import { urls } from './consts/urls'
 
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   typography: {
     button: {
       textTransform: 'none',
+    },
+  },
+  palette: {
+    primary: {
+      main: '#c62828',
+    },
+    secondary: {
+      main: '#ff5252',
     },
   },
 })
@@ -18,8 +25,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <AddList path={urls.root()}></AddList>
-        <List path={urls.list()}></List>
+        <Tabs path={urls.root()}></Tabs>
       </Router>
     </ThemeProvider>
   )
