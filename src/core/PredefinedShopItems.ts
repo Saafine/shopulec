@@ -5,15 +5,15 @@ const values = [
   'Jogurty Skyrr',
   'Śmietana',
   'Płatki orkiszowe',
-  'Indyk',
+  'Indyk / Mielone',
   'Jajka',
   'Ser',
   'Dżem',
   'Szynka',
   'Kiełbasa',
-  'Orzechy',
+  'Masło',
   'Twaróg',
-  'Suszone pomidory',
+  'Bułka tarta',
 
   // Owoce i warzywa
   'Banany',
@@ -24,6 +24,8 @@ const values = [
   'Ziemniaki',
   'Pomidory',
   'Pomidory w puszce',
+  'Suszone pomidory',
+  'Keczup',
   'Ogórek',
   'Miks sałat',
   'Mrożone owoce',
@@ -31,6 +33,8 @@ const values = [
   'Imbir',
   'Buraczki',
   'Sałata',
+
+  'Orzechy',
 
   // Napoje
   'Mleko migdałowe',
@@ -47,10 +51,14 @@ const values = [
   'Płyn do prania',
   'Worki na śmieci',
   'Papier do wypieków',
+  'Żel do mycia włosów',
+  'Mydło',
 
   // Przyprawy
   'Sól',
   'Pieprz',
+  'Przyprawa do kurczaka',
+  'Przyprawa do ziemniaków',
 ]
 
 export const PREDEFINED_SHOP_ITEMS: ShopItem[] = values.map((label) => ({
