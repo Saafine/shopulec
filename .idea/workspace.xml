@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="73624b8e-2e6e-42d3-aef2-4d3fbf57fe33" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/PredefinedShopItems.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/PredefinedShopItems.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +35,10 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="prettierjs.PrettierConfiguration.Package" value="C:\Projects\shopulec\node_modules\prettier" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="debugger.dataViews" />
     <property name="ts.external.directory.path" value="C:\Projects\shopulec\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
@@ -103,7 +108,7 @@
       <workItem from="1590092405110" duration="2734000" />
       <workItem from="1590134840349" duration="18000" />
       <workItem from="1590850296635" duration="16088000" />
-      <workItem from="1590915099637" duration="11058000" />
+      <workItem from="1590915099637" duration="12508000" />
     </task>
     <servers />
   </component>
@@ -119,6 +124,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1590134856595" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1590937693536">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1590937693536" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1590859894867">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -143,9 +152,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1590861120449" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1590934366259">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1590937647215">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1590934366259" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1590937647215" />
   </component>
 </project>
