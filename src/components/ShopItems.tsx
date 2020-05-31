@@ -15,7 +15,8 @@ export interface ShopItemsProps {
   onShopItemClick: (index: number) => void
 }
 
-const circleStyle: CSSProperties = { color: grey[500] }
+const circleSize: CSSProperties = { fontSize: '1.3rem' }
+const circleStyle: CSSProperties = { color: grey[500], ...circleSize }
 
 function ShopItems(props: RouteComponentProps & ShopItemsProps) {
   return (
@@ -24,11 +25,11 @@ function ShopItems(props: RouteComponentProps & ShopItemsProps) {
         return (
           <div key={index} className={'border-solid border-gray-300 border-b'}>
             <FormControlLabel
-              className="px-6"
+              className="p-6"
               control={
                 <Checkbox
                   icon={<RadioButtonUnchecked style={circleStyle} />}
-                  checkedIcon={<CheckCircleOutline />}
+                  checkedIcon={<CheckCircleOutline style={circleSize} />}
                   checked={shopItem.value}
                   onChange={() => props.onShopItemClick(index)}
                 />

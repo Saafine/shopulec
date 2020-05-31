@@ -5,14 +5,8 @@ import NavigationIcon from '@material-ui/icons/Navigation'
 
 export interface AddProductInputProps {
   onSubmit: (newItemLabel: string) => void
-  onBlur?: () => void
 }
 
-// TODO [P. Labus] after enter, focus again on input
-// switching tabs by swiping left and right
-// drag and drop
-// localstorage
-// exit when keyboard closes on input
 function AddProductInput(props: RouteComponentProps & AddProductInputProps) {
   const theme = useTheme()
   const textInput = useRef(null)
@@ -39,12 +33,12 @@ function AddProductInput(props: RouteComponentProps & AddProductInputProps) {
         width: '100%',
       }}
     >
-      <div className="p-8 flex justify-center items-center">
-        <form onSubmit={onSubmit}>
+      <div className="p-8">
+        <form onSubmit={onSubmit} className="flex justify-center items-center">
           <TextField
             inputRef={textInput}
             autoFocus
-            label="Add product"
+            label="Dodaj produkt"
             value={product}
             onChange={(value) => updateProduct(value.target.value)}
           />
