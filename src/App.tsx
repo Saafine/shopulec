@@ -1,33 +1,12 @@
 import React, { useState } from 'react'
 import './App.scss'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+import { ThemeProvider } from '@material-ui/core'
 import Tabs from './components/Tabs'
 import { ShopItem } from './components/ShopItems'
 import { PREDEFINED_SHOP_ITEMS } from './core/PredefinedShopItems'
 import AddProduct from './components/AddProduct'
-
-export const theme = createMuiTheme({
-  typography: {
-    button: {
-      textTransform: 'none',
-    },
-  },
-  palette: {
-    primary: {
-      main: '#c62828',
-    },
-    secondary: {
-      main: '#ff5252',
-    },
-  },
-  overrides: {
-    MuiFormControlLabel: {
-      label: {
-        fontSize: '1.5rem',
-      },
-    },
-  },
-})
+import { addProduct, deleteProduct, getProducts } from './components/Database'
+import { theme } from './core/styles/theme'
 
 function getShopItemsWithToggledIndex(
   shopItems: readonly ShopItem[],
@@ -40,11 +19,22 @@ function getShopItemsWithToggledIndex(
   )
 }
 
+let init = false
+
 function App() {
   const [shopItems, setShopItems] = useState<ShopItem[]>([])
   const [predefinedShopItems, setPredefinedShopItems] = useState<ShopItem[]>(
     PREDEFINED_SHOP_ITEMS
   )
+
+  const loadShopItemsFromDatabase = async () => {
+    const products = await getProducts()
+    setShopItems(products.map((label) => ({ value: false, label })))
+    init = true
+  }
+
+  // TODO [P. Labus]
+  !init && loadShopItemsFromDatabase()
 
   const addShopItem = (newShopItem: string) => {
     setShopItems([
@@ -54,6 +44,7 @@ function App() {
         label: newShopItem,
       },
     ])
+    addProduct(newShopItem)
   }
 
   const updateShopItemState = (index: number) => {
@@ -63,6 +54,8 @@ function App() {
 
   const removeShopItem = (index: number) => {
     setShopItems(shopItems.filter((_, idx) => index !== idx))
+    const shopItemLabel = shopItems[index].label
+    deleteProduct(shopItemLabel)
   }
 
   const onPredefinedShopItemAdded = (index: number) => {
