@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.scss'
 import { ThemeProvider } from '@material-ui/core'
 import Tabs from './components/Tabs'
@@ -19,22 +19,17 @@ function getShopItemsWithToggledIndex(
   )
 }
 
-let init = false
-
 function App() {
   const [shopItems, setShopItems] = useState<ShopItem[]>([])
   const [predefinedShopItems, setPredefinedShopItems] = useState<ShopItem[]>(
     PREDEFINED_SHOP_ITEMS
   )
 
-  const loadShopItemsFromDatabase = async () => {
-    const products = await getProducts()
-    setShopItems(products.map((label) => ({ value: false, label })))
-    init = true
-  }
-
-  // TODO [P. Labus]
-  !init && loadShopItemsFromDatabase()
+  useEffect(() => {
+    getProducts().then((products) => {
+      setShopItems(products.map((label) => ({ value: false, label })))
+    })
+  }, [])
 
   const addShopItem = (newShopItem: string) => {
     setShopItems([
