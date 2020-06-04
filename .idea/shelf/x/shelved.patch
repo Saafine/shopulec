@@ -1,0 +1,505 @@
+Index: src/components/ShopItems.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { CSSProperties } from 'react'\nimport { RouteComponentProps } from '@reach/router'\nimport { grey } from '@material-ui/core/colors'\nimport { FormControlLabel } from '@material-ui/core'\nimport Checkbox from '@material-ui/core/Checkbox'\nimport { CheckCircleOutline, RadioButtonUnchecked } from '@material-ui/icons'\n\nexport interface ShopItem {\n  value: boolean\n  label: string\n}\n\nexport interface ShopItemsProps {\n  shopItems: ShopItem[]\n  onShopItemClick: (index: number) => void\n}\n\nconst circleSize: CSSProperties = { fontSize: '1.3rem' }\nconst circleStyle: CSSProperties = { color: grey[500], ...circleSize }\n\nfunction ShopItems(props: RouteComponentProps & ShopItemsProps) {\n  return (\n    <>\n      {props.shopItems.map((shopItem: ShopItem, index) => {\n        return (\n          <div key={index} className={'border-solid border-gray-300 border-b'}>\n            <FormControlLabel\n              className=\"p-6\"\n              control={\n                <Checkbox\n                  icon={<RadioButtonUnchecked style={circleStyle} />}\n                  checkedIcon={<CheckCircleOutline style={circleSize} />}\n                  checked={shopItem.value}\n                  onChange={() => props.onShopItemClick(index)}\n                />\n              }\n              label={shopItem.label}\n            />\n          </div>\n        )\n      })}\n    </>\n  )\n}\n\nexport default ShopItems\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/components/ShopItems.tsx	(revision 44f06edcab46730a7dd3e77213e3db2330dcd6bc)
++++ src/components/ShopItems.tsx	(date 1591220270884)
+@@ -5,14 +5,20 @@
+ import Checkbox from '@material-ui/core/Checkbox'
+ import { CheckCircleOutline, RadioButtonUnchecked } from '@material-ui/icons'
+ 
++export interface GroupedItem {
++  groupLabel: string
++  color: string
++  shopItems: ShopItem[]
++}
++
+ export interface ShopItem {
+   value: boolean
+   label: string
+ }
+ 
+ export interface ShopItemsProps {
+-  shopItems: ShopItem[]
+-  onShopItemClick: (index: number) => void
++  groupedShopItems: GroupedItem[]
++  onShopItemClick: (label: string) => void
+ }
+ 
+ const circleSize: CSSProperties = { fontSize: '1.3rem' }
+@@ -21,21 +27,30 @@
+ function ShopItems(props: RouteComponentProps & ShopItemsProps) {
+   return (
+     <>
+-      {props.shopItems.map((shopItem: ShopItem, index) => {
++      {props.groupedShopItems.map((groupedShopItem: GroupedItem, index) => {
+         return (
+-          <div key={index} className={'border-solid border-gray-300 border-b'}>
+-            <FormControlLabel
+-              className="p-6"
+-              control={
+-                <Checkbox
+-                  icon={<RadioButtonUnchecked style={circleStyle} />}
+-                  checkedIcon={<CheckCircleOutline style={circleSize} />}
+-                  checked={shopItem.value}
+-                  onChange={() => props.onShopItemClick(index)}
+-                />
+-              }
+-              label={shopItem.label}
+-            />
++          <div style={{ borderLeft: `5px solid ${groupedShopItem.color}` }}>
++            {groupedShopItem.shopItems.map((shopItem) => {
++              return (
++                <div
++                  key={index}
++                  className={'border-solid border-gray-300 border-b'}
++                >
++                  <FormControlLabel
++                    className="p-6"
++                    control={
++                      <Checkbox
++                        icon={<RadioButtonUnchecked style={circleStyle} />}
++                        checkedIcon={<CheckCircleOutline style={circleSize} />}
++                        checked={shopItem.value}
++                        onChange={() => props.onShopItemClick(shopItem.label)}
++                      />
++                    }
++                    label={shopItem.label}
++                  />
++                </div>
++              )
++            })}
+           </div>
+         )
+       })}
+Index: src/core/PredefinedShopItems.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { ShopItem } from '../components/ShopItems'\n\nconst values = [\n  'Chleb / Bułki',\n  'Jogurty Skyrr',\n  'Śmietana',\n  'Płatki orkiszowe',\n  'Indyk / Mielone',\n  'Jajka',\n  'Ser',\n  'Dżem',\n  'Szynka',\n  'Kiełbasa',\n  'Masło',\n  'Twaróg',\n  'Bułka tarta',\n\n  // Owoce i warzywa\n  'Banany',\n  'Marchewki',\n  'Cebula',\n  'Papryka',\n  'Rzodkiewka',\n  'Ziemniaki',\n  'Pomidory',\n  'Pomidory w puszce',\n  'Suszone pomidory',\n  'Keczup',\n  'Ogórek',\n  'Miks sałat',\n  'Mrożone owoce',\n  'Szpinak',\n  'Imbir',\n  'Buraczki',\n  'Sałata',\n\n  'Orzechy',\n\n  // Napoje\n  'Mleko migdałowe',\n  'Mleko czekoladowe',\n  'Woda',\n  'Mleko',\n  'Coca Cola',\n  'Herbata',\n\n  // Chemia i czystość\n  'Ręczniki papierowe',\n  'Mokre ściereczki',\n  'Płyn do naczyń',\n  'Płyn do prania',\n  'Worki na śmieci',\n  'Papier do wypieków',\n  'Żel do mycia włosów',\n  'Mydło',\n\n  // Przyprawy\n  'Sól',\n  'Pieprz',\n  'Przyprawa do kurczaka',\n  'Przyprawa do ziemniaków',\n]\n\nexport const PREDEFINED_SHOP_ITEMS: ShopItem[] = values.map((label) => ({\n  label,\n  value: false,\n}))\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/core/PredefinedShopItems.ts	(revision 44f06edcab46730a7dd3e77213e3db2330dcd6bc)
++++ src/core/PredefinedShopItems.ts	(date 1591219155226)
+@@ -1,67 +1,93 @@
+-import { ShopItem } from '../components/ShopItems'
++import { GroupedItem, ShopItem } from '../components/ShopItems'
+ 
+-const values = [
+-  'Chleb / Bułki',
+-  'Jogurty Skyrr',
+-  'Śmietana',
+-  'Płatki orkiszowe',
+-  'Indyk / Mielone',
+-  'Jajka',
+-  'Ser',
+-  'Dżem',
+-  'Szynka',
+-  'Kiełbasa',
+-  'Masło',
+-  'Twaróg',
+-  'Bułka tarta',
+-
+-  // Owoce i warzywa
+-  'Banany',
+-  'Marchewki',
+-  'Cebula',
+-  'Papryka',
+-  'Rzodkiewka',
+-  'Ziemniaki',
+-  'Pomidory',
+-  'Pomidory w puszce',
+-  'Suszone pomidory',
+-  'Keczup',
+-  'Ogórek',
+-  'Miks sałat',
+-  'Mrożone owoce',
+-  'Szpinak',
+-  'Imbir',
+-  'Buraczki',
+-  'Sałata',
+-
+-  'Orzechy',
+-
+-  // Napoje
+-  'Mleko migdałowe',
+-  'Mleko czekoladowe',
+-  'Woda',
+-  'Mleko',
+-  'Coca Cola',
+-  'Herbata',
+-
+-  // Chemia i czystość
+-  'Ręczniki papierowe',
+-  'Mokre ściereczki',
+-  'Płyn do naczyń',
+-  'Płyn do prania',
+-  'Worki na śmieci',
+-  'Papier do wypieków',
+-  'Żel do mycia włosów',
+-  'Mydło',
+-
+-  // Przyprawy
+-  'Sól',
+-  'Pieprz',
+-  'Przyprawa do kurczaka',
+-  'Przyprawa do ziemniaków',
++const labelsToShopItems = (label: string): ShopItem => {
++  return {
++    value: false,
++    label,
++  }
++}
++
++const values: GroupedItem[] = [
++  {
++    groupLabel: 'Różne',
++    color: 'red',
++    shopItems: [
++      'Chleb / Bułki',
++      'Jogurty Skyrr',
++      'Śmietana',
++      'Płatki orkiszowe',
++      'Indyk / Mielone',
++      'Jajka',
++      'Ser',
++      'Dżem',
++      'Szynka',
++      'Kiełbasa',
++      'Masło',
++      'Twaróg',
++      'Bułka tarta',
++    ].map(labelsToShopItems),
++  },
++  {
++    groupLabel: 'Owoce i warzywa',
++    color: 'blue',
++    shopItems: [
++      'Banany',
++      'Marchewki',
++      'Cebula',
++      'Papryka',
++      'Rzodkiewka',
++      'Ziemniaki',
++      'Pomidory',
++      'Pomidory w puszce',
++      'Suszone pomidory',
++      'Keczup',
++      'Ogórek',
++      'Miks sałat',
++      'Mrożone owoce',
++      'Szpinak',
++      'Imbir',
++      'Buraczki',
++      'Sałata',
++      'Orzechy',
++    ].map(labelsToShopItems),
++  },
++  {
++    groupLabel: 'Napoje',
++    color: 'orange',
++    shopItems: [
++      'Mleko migdałowe',
++      'Mleko czekoladowe',
++      'Woda',
++      'Mleko',
++      'Coca Cola',
++      'Herbata',
++    ].map(labelsToShopItems),
++  },
++  {
++    groupLabel: 'Chemia i czystość',
++    color: 'black',
++    shopItems: [
++      'Ręczniki papierowe',
++      'Mokre ściereczki',
++      'Płyn do naczyń',
++      'Płyn do prania',
++      'Worki na śmieci',
++      'Papier do wypieków',
++      'Żel do mycia włosów',
++      'Mydło',
++    ].map(labelsToShopItems),
++  },
++  {
++    groupLabel: 'Chemia i czystość',
++    color: 'yellow',
++    shopItems: [
++      'Przyprawy',
++      'Sól',
++      'Pieprz',
++      'Przyprawa do kurczaka',
++      'Przyprawa do ziemniaków',
++    ].map(labelsToShopItems),
++  },
+ ]
+ 
+-export const PREDEFINED_SHOP_ITEMS: ShopItem[] = values.map((label) => ({
+-  label,
+-  value: false,
+-}))
++export const PREDEFINED_SHOP_ITEMS: GroupedItem[] = values
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"73624b8e-2e6e-42d3-aef2-4d3fbf57fe33\" name=\"Default Changelist\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/README.md\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/README.md\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/App.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/App.tsx\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectId\" id=\"1c2AYxghFeOABYMu1QzcPDVZkkd\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\n    <property name=\"aspect.path.notification.shown\" value=\"true\" />\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$\" />\n    <property name=\"node.js.detected.package.eslint\" value=\"true\" />\n    <property name=\"node.js.path.for.package.eslint\" value=\"project\" />\n    <property name=\"node.js.selected.package.eslint\" value=\"(autodetect)\" />\n    <property name=\"nodejs_interpreter_path.stuck_in_default_project\" value=\"undefined stuck path\" />\n    <property name=\"nodejs_npm_path_reset_for_default_project\" value=\"true\" />\n    <property name=\"nodejs_package_manager_path\" value=\"npm\" />\n    <property name=\"options.lastSelected\" value=\"configurable.group.appearance\" />\n    <property name=\"options.splitter.details.proportions\" value=\"0.2\" />\n    <property name=\"options.splitter.main.proportions\" value=\"0.3\" />\n    <property name=\"prettierjs.PrettierConfiguration.Package\" value=\"C:\\Projects\\shopulec\\node_modules\\prettier\" />\n    <property name=\"project.structure.last.edited\" value=\"Project\" />\n    <property name=\"project.structure.proportion\" value=\"0.15\" />\n    <property name=\"project.structure.side.proportion\" value=\"0.0\" />\n    <property name=\"settings.editor.selected.configurable\" value=\"debugger.dataViews\" />\n    <property name=\"ts.external.directory.path\" value=\"C:\\Projects\\shopulec\\node_modules\\typescript\\lib\" />\n  </component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"C:\\Projects\\shopulec\\src\\styles\" />\n      <recent name=\"C:\\Projects\\shopulec\\src\\new-list\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"C:\\Projects\\shopulec\\src\\core\" />\n      <recent name=\"C:\\Projects\\shopulec\\src\\Tabs\" />\n      <recent name=\"C:\\Projects\\shopulec\\src\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration default=\"true\" type=\"Applet\" factoryName=\"Applet\">\n      <option name=\"WIDTH\" value=\"400\" />\n      <option name=\"HEIGHT\" value=\"300\" />\n      <option name=\"POLICY_FILE\" value=\"$APPLICATION_HOME_DIR$/bin/appletviewer.policy\" />\n      <module />\n      <method />\n    </configuration>\n    <configuration default=\"true\" type=\"Application\" factoryName=\"Application\">\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"JUnit\" factoryName=\"JUnit\">\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$MODULE_DIR$\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"TestNG\">\n      <option name=\"TEST_OBJECT\" value=\"CLASS\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$MODULE_DIR$\" />\n      <properties />\n      <listeners />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"#org.jetbrains.idea.devkit.run.PluginConfigurationType\">\n      <module name=\"\" />\n      <option name=\"VM_PARAMETERS\" value=\"-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea\" />\n      <option name=\"PROGRAM_PARAMETERS\" />\n      <predefined_log_file enabled=\"true\" id=\"idea.log\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n  </component>\n  <component name=\"SvnConfiguration\">\n    <configuration />\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"73624b8e-2e6e-42d3-aef2-4d3fbf57fe33\" name=\"Default Changelist\" comment=\"\" />\n      <created>1589716365458</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1589716365458</updated>\n      <workItem from=\"1589716366808\" duration=\"12046000\" />\n      <workItem from=\"1589741463388\" duration=\"6356000\" />\n      <workItem from=\"1589784786109\" duration=\"18000\" />\n      <workItem from=\"1590092405110\" duration=\"2734000\" />\n      <workItem from=\"1590134840349\" duration=\"18000\" />\n      <workItem from=\"1590850296635\" duration=\"16088000\" />\n      <workItem from=\"1590915099637\" duration=\"13044000\" />\n      <workItem from=\"1590939139793\" duration=\"673000\" />\n      <workItem from=\"1590996480410\" duration=\"27000\" />\n      <workItem from=\"1591217066811\" duration=\"164000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"2\" />\n  </component>\n  <component name=\"WindowStateProjectService\">\n    <state x=\"698\" y=\"322\" key=\"#com.intellij.fileTypes.FileTypeChooser\" timestamp=\"1590919359757\">\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\n    </state>\n    <state x=\"698\" y=\"322\" key=\"#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1590919359757\" />\n    <state x=\"740\" y=\"275\" key=\"FileChooserDialogImpl\" timestamp=\"1590996505537\">\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\n    </state>\n    <state x=\"740\" y=\"275\" key=\"FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1590996505537\" />\n    <state x=\"461\" y=\"165\" key=\"SettingsEditor\" timestamp=\"1590937693536\">\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\n    </state>\n    <state x=\"461\" y=\"165\" key=\"SettingsEditor/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1590937693536\" />\n    <state x=\"552\" y=\"253\" key=\"Vcs.Push.Dialog.v2\" timestamp=\"1590859894867\">\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\n    </state>\n    <state x=\"552\" y=\"253\" key=\"Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1590859894867\" />\n    <state x=\"92\" y=\"92\" width=\"1736\" height=\"856\" key=\"com.intellij.history.integration.ui.views.FileHistoryDialog\" timestamp=\"1589725568894\">\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\n    </state>\n    <state x=\"92\" y=\"92\" width=\"1736\" height=\"856\" key=\"com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1589725568894\" />\n    <state x=\"607\" y=\"134\" key=\"com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser\" timestamp=\"1590919383363\">\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\n    </state>\n    <state x=\"607\" y=\"134\" key=\"com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1590919383363\" />\n    <state x=\"667\" y=\"253\" width=\"585\" height=\"592\" key=\"find.popup\" timestamp=\"1590861173284\">\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\n    </state>\n    <state x=\"667\" y=\"253\" width=\"585\" height=\"592\" key=\"find.popup/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1590861173284\" />\n    <state x=\"601\" y=\"246\" width=\"700\" height=\"530\" key=\"recent.locations.popup\" timestamp=\"1590852419518\">\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\n    </state>\n    <state x=\"601\" y=\"246\" width=\"700\" height=\"530\" key=\"recent.locations.popup/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1590852419518\" />\n    <state x=\"616\" y=\"240\" key=\"run.anything.popup\" timestamp=\"1590861120449\">\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\n    </state>\n    <state x=\"616\" y=\"240\" key=\"run.anything.popup/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1590861120449\" />\n    <state x=\"623\" y=\"225\" width=\"672\" height=\"678\" key=\"search.everywhere.popup\" timestamp=\"1590996495878\">\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\n    </state>\n    <state x=\"623\" y=\"225\" width=\"672\" height=\"678\" key=\"search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1590996495878\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision 44f06edcab46730a7dd3e77213e3db2330dcd6bc)
++++ .idea/workspace.xml	(date 1591277264962)
+@@ -3,8 +3,10 @@
+   <component name="ChangeListManager">
+     <list default="true" id="73624b8e-2e6e-42d3-aef2-4d3fbf57fe33" name="Default Changelist" comment="">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/components/ShopItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ShopItems.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/components/Tabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Tabs.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/core/PredefinedShopItems.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/PredefinedShopItems.ts" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -24,7 +26,7 @@
+     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+     <property name="WebServerToolWindowFactoryState" value="false" />
+     <property name="aspect.path.notification.shown" value="true" />
+-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
++    <property name="last_opened_file_path" value="$PROJECT_DIR$/../clp" />
+     <property name="node.js.detected.package.eslint" value="true" />
+     <property name="node.js.path.for.package.eslint" value="project" />
+     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+@@ -111,7 +113,8 @@
+       <workItem from="1590915099637" duration="13044000" />
+       <workItem from="1590939139793" duration="673000" />
+       <workItem from="1590996480410" duration="27000" />
+-      <workItem from="1591217066811" duration="164000" />
++      <workItem from="1591217066811" duration="3504000" />
++      <workItem from="1591255790351" duration="13000" />
+     </task>
+     <servers />
+   </component>
+@@ -123,10 +126,15 @@
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+     <state x="698" y="322" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1590919359757" />
+-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1590996505537">
++    <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser" timestamp="1591219026339">
++      <screen x="0" y="0" width="1920" height="1040" />
++    </state>
++    <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040/-1920.49.1920.1040@0.0.1920.1040" timestamp="1591219026339" />
++    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1591255801971">
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1590996505537" />
++    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040/-1920.49.1920.1040@0.0.1920.1040" timestamp="1591255801971" />
+     <state x="461" y="165" key="SettingsEditor" timestamp="1590937693536">
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+@@ -151,10 +159,11 @@
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+     <state x="601" y="246" width="700" height="530" key="recent.locations.popup/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1590852419518" />
+-    <state x="616" y="240" key="run.anything.popup" timestamp="1590861120449">
++    <state x="616" y="240" key="run.anything.popup" timestamp="1591218407819">
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1590861120449" />
++    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040/-1920.49.1920.1040@0.0.1920.1040" timestamp="1591218407819" />
+     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1590996495878">
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+Index: src/components/Tabs.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useState } from 'react'\nimport { RouteComponentProps } from '@reach/router'\nimport ShoppingCartIcon from '@material-ui/icons/ShoppingCart'\nimport FastfoodIcon from '@material-ui/icons/Fastfood'\nimport BusinessCenterIcon from '@material-ui/icons/BusinessCenter'\nimport ShopItems, { ShopItem } from './ShopItems'\nimport { Paper, Tab, Tabs } from '@material-ui/core'\n\ninterface AppTabsProps {\n  shopItems: ShopItem[]\n  onShopItemClick: (index: number) => void\n  predefinedShopItems: ShopItem[]\n  onPredefinedShopItemClick: (index: number) => void\n}\n\nfunction AppTabs(props: RouteComponentProps & AppTabsProps) {\n  const [tabIndex, setTabIndex] = useState(0)\n\n  const handleTabChange = (_: React.ChangeEvent<{}>, value: number) => {\n    setTabIndex(value)\n  }\n\n  return (\n    <React.Fragment>\n      <Paper square>\n        <Tabs\n          value={tabIndex}\n          onChange={handleTabChange}\n          variant=\"fullWidth\"\n          indicatorColor=\"secondary\"\n          textColor=\"secondary\"\n          aria-label=\"icon label tabs\"\n        >\n          <Tab icon={<ShoppingCartIcon />} label=\"Zakupy\" />\n          <Tab icon={<FastfoodIcon />} label=\"Produkty\" />\n          <Tab icon={<BusinessCenterIcon />} label=\"Przepisy\" />\n        </Tabs>\n      </Paper>\n\n      <div hidden={tabIndex !== 0}>\n        <ShopItems\n          shopItems={props.shopItems}\n          onShopItemClick={props.onShopItemClick}\n        ></ShopItems>\n      </div>\n\n      <div hidden={tabIndex !== 1}>\n        <ShopItems\n          shopItems={props.predefinedShopItems}\n          onShopItemClick={props.onPredefinedShopItemClick}\n        ></ShopItems>\n      </div>\n    </React.Fragment>\n  )\n}\n\nexport default AppTabs\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/components/Tabs.tsx	(revision 44f06edcab46730a7dd3e77213e3db2330dcd6bc)
++++ src/components/Tabs.tsx	(date 1591220575783)
+@@ -3,14 +3,15 @@
+ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+ import FastfoodIcon from '@material-ui/icons/Fastfood'
+ import BusinessCenterIcon from '@material-ui/icons/BusinessCenter'
+-import ShopItems, { ShopItem } from './ShopItems'
++import ShopItems, { GroupedItem } from './ShopItems'
+ import { Paper, Tab, Tabs } from '@material-ui/core'
+ 
+ interface AppTabsProps {
+-  shopItems: ShopItem[]
+-  onShopItemClick: (index: number) => void
+-  predefinedShopItems: ShopItem[]
+-  onPredefinedShopItemClick: (index: number) => void
++  onShopItemClick: (item: GroupedItem) => void
++  onPredefinedShopItemClick: (index: GroupedItem) => void
++
++  userItems: GroupedItem[];
++  groupedPredefinedShopItems: GroupedItem[]
+ }
+ 
+ function AppTabs(props: RouteComponentProps & AppTabsProps) {
+@@ -20,6 +21,16 @@
+     setTabIndex(value)
+   }
+ 
++  const toUserDefinedGroupItems = (labels: string[]): GroupedItem[] => {
++    return [
++      {
++        groupLabel: 'Inne',
++        color: 'gray',
++        shopItems: labels.map((label) => ({ value: false, label })),
++      },
++    ]
++  }
++
+   return (
+     <React.Fragment>
+       <Paper square>
+@@ -39,14 +50,14 @@
+ 
+       <div hidden={tabIndex !== 0}>
+         <ShopItems
+-          shopItems={props.shopItems}
++          groupedShopItems={toUserDefinedGroupItems(props.userItems)}
+           onShopItemClick={props.onShopItemClick}
+         ></ShopItems>
+       </div>
+ 
+       <div hidden={tabIndex !== 1}>
+         <ShopItems
+-          shopItems={props.predefinedShopItems}
++          groupedShopItems={props.groupedPredefinedShopItems}
+           onShopItemClick={props.onPredefinedShopItemClick}
+         ></ShopItems>
+       </div>
+Index: src/App.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useState } from 'react'\nimport './App.scss'\nimport { ThemeProvider } from '@material-ui/core'\nimport Tabs from './components/Tabs'\nimport { ShopItem } from './components/ShopItems'\nimport { PREDEFINED_SHOP_ITEMS } from './core/PredefinedShopItems'\nimport AddProduct from './components/AddProduct'\nimport { addProduct, deleteProduct, getProducts } from './components/Database'\nimport { theme } from './core/styles/theme'\n\nfunction getShopItemsWithToggledIndex(\n  shopItems: readonly ShopItem[],\n  index: number\n) {\n  return shopItems.map((control, idx) =>\n    index !== idx\n      ? { ...control }\n      : { label: control.label, value: !control.value }\n  )\n}\n\nfunction App() {\n  const [shopItems, setShopItems] = useState<ShopItem[]>([])\n  const [predefinedShopItems, setPredefinedShopItems] = useState<ShopItem[]>(\n    PREDEFINED_SHOP_ITEMS\n  )\n\n  useEffect(() => {\n    getProducts().then((products) => {\n      setShopItems(products.map((label) => ({ value: false, label })))\n    })\n  }, [])\n\n  const addShopItem = (newShopItem: string) => {\n    setShopItems([\n      ...shopItems,\n      {\n        value: false,\n        label: newShopItem,\n      },\n    ])\n    addProduct(newShopItem)\n  }\n\n  const updateShopItemState = (index: number) => {\n    setShopItems(getShopItemsWithToggledIndex(shopItems, index))\n    setTimeout(() => removeShopItem(index), 100)\n  }\n\n  const removeShopItem = (index: number) => {\n    setShopItems(shopItems.filter((_, idx) => index !== idx))\n    const shopItemLabel = shopItems[index].label\n    deleteProduct(shopItemLabel)\n  }\n\n  const onPredefinedShopItemAdded = (index: number) => {\n    const { value, label } = predefinedShopItems[index]\n    value\n      ? onPredefinedItemAlreadySelected(label)\n      : addShopItem(predefinedShopItems[index].label)\n    setPredefinedShopItems(\n      getShopItemsWithToggledIndex(predefinedShopItems, index)\n    )\n  }\n\n  const onPredefinedItemAlreadySelected = (label: string) => {\n    const indexOfShopItems = shopItems.findIndex(\n      (shopItem) => shopItem.label === label\n    )\n    removeShopItem(indexOfShopItems)\n  }\n\n  return (\n    <ThemeProvider theme={theme}>\n      <Tabs\n        shopItems={shopItems}\n        predefinedShopItems={predefinedShopItems}\n        onPredefinedShopItemClick={onPredefinedShopItemAdded}\n        onShopItemClick={updateShopItemState}\n      ></Tabs>\n      <AddProduct onSubmit={addShopItem} />\n    </ThemeProvider>\n  )\n}\n\nexport default App\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/App.tsx	(revision 44f06edcab46730a7dd3e77213e3db2330dcd6bc)
++++ src/App.tsx	(date 1591220575801)
+@@ -2,12 +2,16 @@
+ import './App.scss'
+ import { ThemeProvider } from '@material-ui/core'
+ import Tabs from './components/Tabs'
+-import { ShopItem } from './components/ShopItems'
++import { GroupedItem, ShopItem } from './components/ShopItems'
+ import { PREDEFINED_SHOP_ITEMS } from './core/PredefinedShopItems'
+ import AddProduct from './components/AddProduct'
+-import { addProduct, deleteProduct, getProducts } from './components/Database'
++import { addProduct, deleteProduct } from './components/Database'
+ import { theme } from './core/styles/theme'
+ 
++const GROUP_TITLES = {
++  OTHER: 'Inne',
++}
++
+ function getShopItemsWithToggledIndex(
+   shopItems: readonly ShopItem[],
+   index: number
+@@ -20,63 +24,62 @@
+ }
+ 
+ function App() {
+-  const [shopItems, setShopItems] = useState<ShopItem[]>([])
+-  const [predefinedShopItems, setPredefinedShopItems] = useState<ShopItem[]>(
++  const [groupedItems, setGroupItems] = useState<GroupedItem[]>([])
++  const [predefinedShopItems, setPredefinedShopItems] = useState<GroupedItem[]>(
+     PREDEFINED_SHOP_ITEMS
+   )
+ 
+   useEffect(() => {
+-    getProducts().then((products) => {
+-      setShopItems(products.map((label) => ({ value: false, label })))
+-    })
++    // getProducts().then((products) => {
++    //   setShopItems(products.map((label) => ({ value: false, label })))
++    // })
+   }, [])
+ 
+-  const addShopItem = (newShopItem: string) => {
+-    setShopItems([
+-      ...shopItems,
+-      {
+-        value: false,
+-        label: newShopItem,
+-      },
+-    ])
+-    addProduct(newShopItem)
++  const addShopItem = (item: GroupedItem) => {
++    // setUserItems([...userItems, newShopItem])
++    // addProduct(newShopItem)
+   }
+ 
+   const updateShopItemState = (index: number) => {
+-    setShopItems(getShopItemsWithToggledIndex(shopItems, index))
+-    setTimeout(() => removeShopItem(index), 100)
++    // setShopItems(getShopItemsWithToggledIndex(shopItems, index))
++    // setTimeout(() => removeShopItem(index), 100)
+   }
+ 
+-  const removeShopItem = (index: number) => {
+-    setShopItems(shopItems.filter((_, idx) => index !== idx))
+-    const shopItemLabel = shopItems[index].label
+-    deleteProduct(shopItemLabel)
++  const removeUserItem = (label: string) => {
++    // setShopItems(shopItems.filter((_, idx) => index !== idx))
++    // const shopItemLabel = shopItems[index].label
++    // setUserItems(userItems.filter((userItem) => userItem !== label))
++    // deleteProduct(shopItemLabel)
+   }
+ 
+-  const onPredefinedShopItemAdded = (index: number) => {
+-    const { value, label } = predefinedShopItems[index]
+-    value
+-      ? onPredefinedItemAlreadySelected(label)
+-      : addShopItem(predefinedShopItems[index].label)
+-    setPredefinedShopItems(
+-      getShopItemsWithToggledIndex(predefinedShopItems, index)
+-    )
++  const onPredefinedShopItemAdded = (label: string) => {
++    // const { value, label } = groupedPredefinedShopItems[index]
++    // value
++    //   ? onPredefinedItemAlreadySelected(label)
++    //   : addShopItem(groupedPredefinedShopItems[index].label)
++    // setPredefinedShopItems(
++    //   getShopItemsWithToggledIndex(groupedPredefinedShopItems, index)
++    // )
+   }
+ 
+   const onPredefinedItemAlreadySelected = (label: string) => {
+-    const indexOfShopItems = shopItems.findIndex(
+-      (shopItem) => shopItem.label === label
+-    )
+-    removeShopItem(indexOfShopItems)
++    // const indexOfShopItems = shopItems.findIndex(
++    //   (shopItem) => shopItem.label === label
++    // )
++    // removeShopItem(indexOfShopItems)
++  }
++
++  const onPredefinedShopItemClick = (label: string) => {
++
+   }
+ 
+   return (
+     <ThemeProvider theme={theme}>
+       <Tabs
+-        shopItems={shopItems}
+-        predefinedShopItems={predefinedShopItems}
+-        onPredefinedShopItemClick={onPredefinedShopItemAdded}
+-        onShopItemClick={updateShopItemState}
++        userItems={addShopItem}
++        groupedPredefinedShopItems={predefinedShopItems}
++        onPredefinedShopItemClick={onPredefinedShopItemClick}
++        onShopItemClick={removeUserItem}
+       ></Tabs>
+       <AddProduct onSubmit={addShopItem} />
+     </ThemeProvider>

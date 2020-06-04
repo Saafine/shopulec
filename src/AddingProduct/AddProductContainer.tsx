@@ -1,7 +1,7 @@
 import { RouteComponentProps } from '@reach/router'
 import React from 'react'
 import AddProductInput, { AddProductInputProps } from './AddProductInput'
-import Overlay from './Overlay'
+import Overlay from '../Layout/Overlay'
 
 function AddProductContainer(
   props: RouteComponentProps & AddProductInputProps

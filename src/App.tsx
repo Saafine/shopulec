@@ -1,84 +1,79 @@
 import React, { useEffect, useState } from 'react'
 import './App.scss'
 import { ThemeProvider } from '@material-ui/core'
-import Tabs from './components/Tabs'
-import { ShopItem } from './components/ShopItems'
-import { PREDEFINED_SHOP_ITEMS } from './core/PredefinedShopItems'
-import AddProduct from './components/AddProduct'
-import { addProduct, deleteProduct, getProducts } from './components/Database'
+import Tabs from './Layout/Tabs'
+import AddProduct from './AddingProduct/AddProduct'
+import {
+  getProductsFromPersistentStorage,
+  updatePersistentStorage,
+} from './core/database'
 import { theme } from './core/styles/theme'
-
-function getShopItemsWithToggledIndex(
-  shopItems: readonly ShopItem[],
-  index: number
-) {
-  return shopItems.map((control, idx) =>
-    index !== idx
-      ? { ...control }
-      : { label: control.label, value: !control.value }
-  )
-}
+import {
+  AddUserDefinedItem,
+  getUserDefinedItemDefaults,
+  RemoveUserDefinedItem,
+  ShopItem,
+  TogglePredefinedItem,
+} from './core/models'
+import { PREDEFINED_SHOP_ITEMS } from './core/predefined'
 
 function App() {
   const [shopItems, setShopItems] = useState<ShopItem[]>([])
-  const [predefinedShopItems, setPredefinedShopItems] = useState<ShopItem[]>(
-    PREDEFINED_SHOP_ITEMS
-  )
 
   useEffect(() => {
-    getProducts().then((products) => {
-      setShopItems(products.map((label) => ({ value: false, label })))
+    getProductsFromPersistentStorage().then((products) => {
+      setShopItems(products.length ? products : PREDEFINED_SHOP_ITEMS)
     })
   }, [])
 
-  const addShopItem = (newShopItem: string) => {
-    setShopItems([
-      ...shopItems,
-      {
-        value: false,
-        label: newShopItem,
-      },
-    ])
-    addProduct(newShopItem)
-  }
-
-  const updateShopItemState = (index: number) => {
-    setShopItems(getShopItemsWithToggledIndex(shopItems, index))
-    setTimeout(() => removeShopItem(index), 100)
-  }
-
-  const removeShopItem = (index: number) => {
-    setShopItems(shopItems.filter((_, idx) => index !== idx))
-    const shopItemLabel = shopItems[index].label
-    deleteProduct(shopItemLabel)
-  }
-
-  const onPredefinedShopItemAdded = (index: number) => {
-    const { value, label } = predefinedShopItems[index]
-    value
-      ? onPredefinedItemAlreadySelected(label)
-      : addShopItem(predefinedShopItems[index].label)
-    setPredefinedShopItems(
-      getShopItemsWithToggledIndex(predefinedShopItems, index)
+  const addUserDefinedItem: AddUserDefinedItem = (userDefinedItemLabel) => {
+    const newShopItem: ShopItem = getUserDefinedItemDefaults(
+      userDefinedItemLabel
     )
+    const newValue: ShopItem[] = [...shopItems, newShopItem]
+    setShopItems(newValue)
+    updatePersistentStorage(newValue)
   }
 
-  const onPredefinedItemAlreadySelected = (label: string) => {
-    const indexOfShopItems = shopItems.findIndex(
-      (shopItem) => shopItem.label === label
+  const removeUserDefinedItem: RemoveUserDefinedItem = (userDefinedItem) => {
+    if (userDefinedItem.isPredefined) {
+      togglePredefinedItem(userDefinedItem)
+    } else {
+      const newValue: ShopItem[] = shopItems.filter(
+        (item) => item.label !== userDefinedItem.label
+      )
+      setShopItems(newValue)
+      updatePersistentStorage(newValue)
+    }
+  }
+
+  const togglePredefinedItem: TogglePredefinedItem = (userDefinedItem) => {
+    const newValue: ShopItem[] = shopItems.map((shopItem) =>
+      shopItem.label !== userDefinedItem.label
+        ? shopItem
+        : {
+            ...shopItem,
+            checked: !shopItem.checked,
+          }
     )
-    removeShopItem(indexOfShopItems)
+
+    setShopItems(newValue)
+    updatePersistentStorage(newValue)
   }
 
   return (
     <ThemeProvider theme={theme}>
       <Tabs
-        shopItems={shopItems}
-        predefinedShopItems={predefinedShopItems}
-        onPredefinedShopItemClick={onPredefinedShopItemAdded}
-        onShopItemClick={updateShopItemState}
+        shopItems={shopItems
+          .filter((shopItem) => shopItem.checked)
+          .map((shopItem) => ({ ...shopItem, checked: false }))}
+        predefinedShopItems={shopItems.filter(
+          (shopItem) => shopItem.isPredefined
+        )}
+        onPredefinedShopItemClick={togglePredefinedItem}
+        onShopItemClick={removeUserDefinedItem}
       ></Tabs>
-      <AddProduct onSubmit={addShopItem} />
+      <AddProduct onSubmit={addUserDefinedItem} />
     </ThemeProvider>
   )
 }

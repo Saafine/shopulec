@@ -2,15 +2,17 @@ import React, { useState } from 'react'
 import { RouteComponentProps } from '@reach/router'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import FastfoodIcon from '@material-ui/icons/Fastfood'
-import BusinessCenterIcon from '@material-ui/icons/BusinessCenter'
-import ShopItems, { ShopItem } from './ShopItems'
+import ShopItems from '../ShopItems/ShopItems'
 import { Paper, Tab, Tabs } from '@material-ui/core'
+import { ShopItem } from '../core/models'
+import ReceiptIcon from '@material-ui/icons/Receipt'
 
 interface AppTabsProps {
   shopItems: ShopItem[]
-  onShopItemClick: (index: number) => void
   predefinedShopItems: ShopItem[]
-  onPredefinedShopItemClick: (index: number) => void
+
+  onShopItemClick: (shopItem: ShopItem) => void
+  onPredefinedShopItemClick: (shopItem: ShopItem) => void
 }
 
 function AppTabs(props: RouteComponentProps & AppTabsProps) {
@@ -33,7 +35,7 @@ function AppTabs(props: RouteComponentProps & AppTabsProps) {
         >
           <Tab icon={<ShoppingCartIcon />} label="Zakupy" />
           <Tab icon={<FastfoodIcon />} label="Produkty" />
-          <Tab icon={<BusinessCenterIcon />} label="Przepisy" />
+          <Tab icon={<ReceiptIcon />} label="Przepisy" />
         </Tabs>
       </Paper>
 
