@@ -48,8 +48,8 @@ function App() {
       )
       setShopItems(newValue)
       updatePersistentStorage(newValue)
-      setUndoItems(removedItems.concat(userDefinedItem.label))
     }
+    setUndoItems(removedItems.concat(userDefinedItem.label))
   }
 
   const undoItemRemoval: UndoItemRemoval = () => {
