@@ -1,4 +1,4 @@
-import { ShopItem, SHOP_ITEM_GROUP } from './models'
+import { SHOP_ITEM_GROUP, ShopItem } from './models'
 
 const tagGroup = (
   itemGroup: SHOP_ITEM_GROUP,
@@ -10,17 +10,26 @@ const tagGroup = (
   isPredefined: true,
 })
 
-export const VERSION = 2
+export const VERSION = 3
 
 const BAKERY = ['Chleb / Bułki']
 
-const DAIRY = ['Jogurty Skyrr', 'Śmietana', 'Ser', 'Jajka', 'Masło', 'Twaróg']
+const DAIRY = [
+  'Jogurty Skyrr',
+  'Śmietana',
+  'Ser',
+  'Jajka',
+  'Masło',
+  'Twaróg',
+  'Mozarella',
+]
 
 const MEAT = ['Indyk / Mielone', 'Szynka', 'Kiełbasa']
 
 const FRUITS_AND_VEGGIES = [
   'Banany',
   'Marchewki',
+  'Guacamole',
   'Cebula',
   'Papryka',
   'Rzodkiewka',
@@ -57,6 +66,8 @@ const CLEANING = [
   'Papier do wypieków',
   'Żel do mycia włosów',
   'Mydło',
+  'Nici dentystyczne',
+  'Pasta do zebów',
 ]
 
 const SPICES = [

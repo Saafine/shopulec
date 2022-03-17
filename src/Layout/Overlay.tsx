@@ -11,6 +11,7 @@ function Overlay(props: RouteComponentProps) {
         left: 0,
         top: 0,
         position: 'absolute',
+        zIndex: 100,
       }}
     >
       <Link to={urls.root()}>

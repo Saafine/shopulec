@@ -14,11 +14,14 @@ import {
   RemoveUserDefinedItem,
   ShopItem,
   TogglePredefinedItem,
+  UndoItemRemoval,
 } from './core/models'
 import { PREDEFINED_SHOP_ITEMS } from './core/predefined'
+import UndoButton from './AddingProduct/UndoButton'
 
 function App() {
   const [shopItems, setShopItems] = useState<ShopItem[]>([])
+  const [removedItems, setUndoItems] = useState<string[]>([])
 
   useEffect(() => {
     getProductsFromPersistentStorage().then((products) => {
@@ -27,6 +30,7 @@ function App() {
   }, [])
 
   const addUserDefinedItem: AddUserDefinedItem = (userDefinedItemLabel) => {
+    if (!userDefinedItemLabel) return
     const newShopItem: ShopItem = getUserDefinedItemDefaults(
       userDefinedItemLabel
     )
@@ -44,7 +48,16 @@ function App() {
       )
       setShopItems(newValue)
       updatePersistentStorage(newValue)
+      setUndoItems(removedItems.concat(userDefinedItem.label))
     }
+  }
+
+  const undoItemRemoval: UndoItemRemoval = () => {
+    const remaining: string[] = removedItems.slice(0, -1)
+    const last: string = removedItems.slice(-1)[0]
+
+    setUndoItems(remaining)
+    addUserDefinedItem(last)
   }
 
   const togglePredefinedItem: TogglePredefinedItem = (userDefinedItem) => {
@@ -74,6 +87,9 @@ function App() {
         onShopItemClick={removeUserDefinedItem}
       ></Tabs>
       <AddProduct onSubmit={addUserDefinedItem} />
+      {removedItems.length > 0 && (
+        <UndoButton handleClick={() => undoItemRemoval()} />
+      )}
     </ThemeProvider>
   )
 }

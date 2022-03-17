@@ -24,6 +24,7 @@ function AddProductInput(props: RouteComponentProps & AddProductInputProps) {
   return (
     <div
       style={{
+        zIndex: 101,
         position: 'absolute',
         borderTopLeftRadius: '20px',
         borderTopRightRadius: '20px',

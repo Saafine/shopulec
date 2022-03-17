@@ -29,3 +29,4 @@ export const getUserDefinedItemDefaults: (
 export type AddUserDefinedItem = (itemLabel: string) => void
 export type RemoveUserDefinedItem = (userDefinedItem: ShopItem) => void
 export type TogglePredefinedItem = (shopItem: ShopItem) => void
+export type UndoItemRemoval = () => void

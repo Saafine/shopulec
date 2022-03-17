@@ -5,7 +5,6 @@ import FastfoodIcon from '@material-ui/icons/Fastfood'
 import ShopItems from '../ShopItems/ShopItems'
 import { Paper, Tab, Tabs } from '@material-ui/core'
 import { ShopItem } from '../core/models'
-import ReceiptIcon from '@material-ui/icons/Receipt'
 
 interface AppTabsProps {
   shopItems: ShopItem[]
@@ -35,7 +34,6 @@ function AppTabs(props: RouteComponentProps & AppTabsProps) {
         >
           <Tab icon={<ShoppingCartIcon />} label="Zakupy" />
           <Tab icon={<FastfoodIcon />} label="Produkty" />
-          <Tab icon={<ReceiptIcon />} label="Przepisy" />
         </Tabs>
       </Paper>
 
