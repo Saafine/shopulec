@@ -32,7 +32,7 @@ function AppTabs(props: RouteComponentProps & AppTabsProps) {
           textColor="secondary"
           aria-label="icon label tabs"
         >
-          <Tab icon={<ShoppingCartIcon />} label="Zakupy" />
+          <Tab icon={<ShoppingCartIcon />} label="Zakupy v2" />
           <Tab icon={<FastfoodIcon />} label="Produkty" />
         </Tabs>
       </Paper>
