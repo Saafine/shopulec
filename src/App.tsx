@@ -4,6 +4,7 @@ import { ThemeProvider } from '@material-ui/core'
 import Tabs from './Layout/Tabs'
 import AddProduct from './AddingProduct/AddProduct'
 import {
+  getPersistentStorage,
   getProductsFromPersistentStorage,
   updatePersistentStorage,
 } from './core/database'
@@ -24,9 +25,11 @@ function App() {
   const [removedItems, setUndoItems] = useState<string[]>([])
 
   useEffect(() => {
-    getProductsFromPersistentStorage().then((products) => {
-      setShopItems(products.length ? products : PREDEFINED_SHOP_ITEMS)
-    })
+    getPersistentStorage()
+      .then(() => getProductsFromPersistentStorage())
+      .then((products) => {
+        setShopItems(products.length ? products : PREDEFINED_SHOP_ITEMS)
+      })
   }, [])
 
   const addUserDefinedItem: AddUserDefinedItem = (userDefinedItemLabel) => {

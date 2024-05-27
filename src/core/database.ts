@@ -41,3 +41,15 @@ export async function updatePersistentStorage(
   await db.put('products', shopItems, 'state')
   db.close()
 }
+
+export function getPersistentStorage(): Promise<void> {
+  if (!navigator?.storage?.persist) return Promise.resolve()
+
+  return navigator.storage.persist().then((persistent) => {
+    if (persistent) {
+      console.log('Storage will not be cleared except by explicit user action')
+    } else {
+      console.log('Storage may be cleared by the UA under storage pressure.')
+    }
+  })
+}
